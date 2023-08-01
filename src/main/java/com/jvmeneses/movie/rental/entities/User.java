@@ -1,20 +1,37 @@
 package com.jvmeneses.movie.rental.entities;
 
+import javax.persistence.*;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+@Entity
+@Table(name = "tb_user")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(unique = true)
     private String cpf;
+    @Column(unique = true)
     private String email;
     private String phone;
     private String password;
     private Boolean restriction;
-
     private LocalDate birthDate;
+    @OneToMany(mappedBy = "client")
+    private List<Address> adresses = new ArrayList<>();
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "tb_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     public User() {
@@ -95,8 +112,24 @@ public class User {
         this.birthDate = birthDate;
     }
 
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public List<Address> getAdresses() {
+        return adresses;
+    }
+
     public Set<Role> getRoles() {
         return roles;
+    }
+    public boolean hasRole(String roleName) {
+        for (Role role : roles) {
+            if (role.getRoleName().equals(roleName)){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

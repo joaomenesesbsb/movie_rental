@@ -1,18 +1,21 @@
 package com.jvmeneses.movie.rental.entities;
 
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "tb_genre")
 public class Genre {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
     private Integer likes;
+    @ManyToMany(mappedBy = "genres")
+    private Set<Book> books = new HashSet<>();
 
     public Genre() {
-    }
-
-    public Genre(Long id, String name, Integer likes) {
-        this.id = id;
-        this.name = name;
-        this.likes = likes;
     }
 
     public Long getId() {
@@ -38,4 +41,9 @@ public class Genre {
     public void setLikes(Integer likes) {
         this.likes = likes;
     }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
 }
