@@ -1,19 +1,30 @@
 package com.jvmeneses.movie.rental.entities;
 
-public class OrderItemPK {
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import java.io.Serializable;
 
-    private Order Order;
-    private Book book;
+@Embeddable
+public class OrderItemPK implements Serializable {
 
-    public OrderItemPK() {
+        @ManyToOne
+        @JoinColumn(name = "order_id")
+        private Order order;
+
+        @ManyToOne
+        @JoinColumn(name = "book_id")
+        private Book book;
+
+        public OrderItemPK(){
+        }
+
+    public Order getOrder() {
+        return order;
     }
 
-    public com.jvmeneses.movie.rental.entities.Order getOrder() {
-        return Order;
-    }
-
-    public void setOrder(com.jvmeneses.movie.rental.entities.Order order) {
-        Order = order;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Book getBook() {

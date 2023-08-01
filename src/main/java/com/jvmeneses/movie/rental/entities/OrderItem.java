@@ -1,6 +1,13 @@
 package com.jvmeneses.movie.rental.entities;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tb_order_item")
 public class OrderItem {
+    @EmbeddedId
     private OrderItemPK id = new OrderItemPK();
     private Double price;
     private Integer days;
